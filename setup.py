@@ -33,7 +33,7 @@ setup(
     url = 'https://github.com/xaptum/xtt-python',
     download_url = 'https://github.com/xaptum/xtt-python/{}.tar.gz'.format(VERSION),
 
-    packages = ['xtt', 'xtt.crypto'],
+    packages = ['xtt', 'xtt.crypto', 'xtt.test'],
 
     zip_safe=False,
     cffi_modules = ['_build_ffi.py:ffi'],
