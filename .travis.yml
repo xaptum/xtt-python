@@ -1,0 +1,12 @@
+notifications:
+  email: false
+
+matrix:
+  include:
+    - sudo: required
+      services:
+        - docker
+      script:
+        - ./make/manylinux1/build_wheels.sh
+
+install: true
