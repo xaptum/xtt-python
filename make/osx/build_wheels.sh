@@ -10,6 +10,7 @@ for PYVERSION in 2.7 3.4 3.5 3.6; do
     python setup.py bdist_wheel
 
     pip uninstall -y xtt || true
+    pip install -r requirements/prod.txt
     pip install xtt --no-index -f dist
 
     pip install -r requirements/test.txt

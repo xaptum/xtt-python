@@ -14,7 +14,7 @@ if [ -d dist ]; then mv dist tmpdist; fi
 # Compile wheels
 for PYBIN in /opt/python/*/bin; do
     # Build the wheel
-    "${PYBIN}"/pip install -r requirements/prod.txt
+    "${PYBIN}"/pip install -r requirements/setup.txt
     "${PYBIN}"/python setup.py bdist_wheel
     rm -rf .eggs
 done
@@ -26,9 +26,10 @@ done
 
 # Install packages and test
 for PYBIN in /opt/python/*/bin; do
-    "${PYBIN}"/pip install -r requirements/test.txt
-
+    "${PYBIN}"/pip install -r requirements/prod.txt
     "${PYBIN}/pip" install xtt --no-index -f tmpdist/
+
+    "${PYBIN}"/pip install -r requirements/test.txt
     pushd "$HOME"; "${PYBIN}/nosetests" xtt; popd
 done
 
