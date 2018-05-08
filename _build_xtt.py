@@ -167,9 +167,9 @@ AMCL = CMakeLibrary('amcl', '4.7.3',  'https://github.com/milagro-crypto/milagro
                         '-DBUILD_X509=OFF'
                     ],
                     [
-                        'libamcl_core.a',
                         'libamcl_curve_FP256BN.a',
-                        'libamcl_pairing_FP256BN.a'
+                        'libamcl_pairing_FP256BN.a',
+                        'libamcl_core.a',
                     ])
 
 ECDAA  = CMakeLibrary('ecdaa', 'v0.9.1', 'https://github.com/xaptum/ecdaa.git',

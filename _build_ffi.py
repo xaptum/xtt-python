@@ -15,8 +15,7 @@ ffi.set_source(
                   ECDAA.lib_path,
                   SODIUM.lib_path,
                   XTT.lib_path],
-    # AMCL twice since it links against itself
-    libraries = ["c"] + XTT.libs + ECDAA.libs + AMCL.libs + AMCL.libs + SODIUM.libs
+    libraries = ["c"] + XTT.libs + ECDAA.libs + AMCL.libs + SODIUM.libs
 )
 
 ffi.cdef(
