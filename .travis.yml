@@ -6,7 +6,15 @@ matrix:
     - sudo: required
       services:
         - docker
+      language: python
+      install:
+        - true
       script:
         - ./make/manylinux1/build_wheels.sh
-
-install: true
+    - os: osx
+      osx_image: xcode9.3
+      language: generic
+      install:
+        - ./make/osx/install_python.sh
+      script:
+        - ./make/osx/build_wheels.sh
