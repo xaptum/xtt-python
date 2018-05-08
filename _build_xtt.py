@@ -191,7 +191,7 @@ SODIUM = AutotoolsLibrary('libsodium', '1.0.16', 'https://github.com/jedisct1/li
                               'libsodium.a'
                           ])
 
-XTT = CMakeLibrary('xtt', 'v0.7.0', 'https://github.com/xaptum/xtt.git',
+XTT = CMakeLibrary('xtt', 'v0.7.1', 'https://github.com/xaptum/xtt.git',
                    [
                        '-DUSE_TPM=OFF',
                        '-Dsodium_USE_STATIC_LIBS=ON',
