@@ -43,10 +43,10 @@ setup(
         u'Development Status :: 5 - Production/Stable',
         u'Intended Audience :: Developers',
         u'License :: OSI Approved :: Apache Software License',
-        u'Programming Language :: Python :: 2.7'
-        u'Programming Language :: Python :: 3.4'
-        u'Programming Language :: Python :: 3.5'
-        u'Programming Language :: Python :: 3.6'
+        u'Programming Language :: Python :: 2.7',
+        u'Programming Language :: Python :: 3.4',
+        u'Programming Language :: Python :: 3.5',
+        u'Programming Language :: Python :: 3.6',
         u'Topic :: Security',
         u'Topic :: Security :: Cryptography',
         u'Topic :: Software Development'
