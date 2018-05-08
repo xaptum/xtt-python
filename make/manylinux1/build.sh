@@ -26,10 +26,10 @@ done
 
 # Install packages and test
 for PYBIN in /opt/python/*/bin; do
-    "${PYBIN}/pip" install xtt --no-index -f tmpdist/
-
     "${PYBIN}"/pip install -r requirements/test.txt
-    (cd "$HOME"; "${PYBIN}/nosetests" xtt)
+
+    "${PYBIN}/pip" install xtt --no-index -f tmpdist/
+    pushd "$HOME"; "${PYBIN}/nosetests" xtt; popd
 done
 
 # Restore dist
