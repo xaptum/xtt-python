@@ -26,6 +26,14 @@ class XTTClientSocket(object):
     def identity(self):
         return self._ctx.my_identity
 
+    @property
+    def longterm_public_key(self):
+        return self._ctx.my_longterm_public_key_ed25519
+
+    @property
+    def longterm_private_key(self):
+        return self._ctx.my_longterm_private_key_ed25519
+
     def _do(self, step, *args):
         try:
             step(*args)

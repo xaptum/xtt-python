@@ -39,8 +39,10 @@ def main():
                                        server_id, root_id, root_pubkey)
         print("Starting handshake...")
         xtt_sock.start()
-        print("Received identity", xtt_sock.identity)
-        print("Handshake succeeded.")
+        print("Identity:", xtt_sock.identity)
+        print("Longterm Public Key:", xtt_sock.longterm_public_key)
+        print("Longterm Private Key:", xtt_sock.longterm_private_key)
+        print("Handshake succeeded")
     finally:
         sock.close()
 
