@@ -3,6 +3,10 @@
 [![PyPI version](https://badge.fury.io/py/xtt.svg)](https://badge.fury.io/py/xtt)
 [![Build Status](https://travis-ci.org/xaptum/xtt-python.svg?branch=master)](https://travis-ci.org/xaptum/xtt-python)
 
+A Python module (`xtt`) that encapsulates the [XTT Trusted
+Transit](https://github.com/xaptum/xtt) protocol for securing Internet
+of Things (IoT) devices.
+
 ## Installation
 
 ``` bash
@@ -10,7 +14,7 @@ pip install xtt
 ```
 
 The package is published to PyPI for Python 2.7 and 3.3+ for Linux and
-OS X. `pip` installs all dependencies.
+OS X. `pip` installs all dependencies, including `xtt` itself.
 
 ## Quick-Start
 
