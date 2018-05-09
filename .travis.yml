@@ -31,6 +31,8 @@ matrix:
         - ./make/osx/build_wheels.sh
         - |
           if [[ $TRAVIS_TAG ]]; then
+            . ./venv_3.6/bin/activate
             python -m pip install twine
             python -m twine upload dist/*.whl
+            deactive
           fi
