@@ -6,7 +6,7 @@ from setuptools import setup, find_packages
 from setuptools.command.build_ext import build_ext
 from _build_xtt import build_all, XTT
 
-VERSION = '{}-0'.format(XTT.version[1:])
+VERSION = '{}-1'.format(XTT.version[1:])
 
 def _requirements(filepath):
     with open(filepath, 'rt') as f:
