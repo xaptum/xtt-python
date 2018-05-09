@@ -1,6 +1,11 @@
 notifications:
   email: false
 
+env:
+  global:
+    - TWINE_USERNAME=drbild
+    # Note: TWINE_PASSWORD is set in Travis settings
+
 matrix:
   include:
     - sudo: required
@@ -11,6 +16,12 @@ matrix:
         - true
       script:
         - ./make/manylinux1/build_wheels.sh
+        - |
+          if [[ $TRAVIS_TAG ]]; then
+            python -m pip install twine
+            python -m twine upload dist/*.whl
+          fi
+
     - os: osx
       osx_image: xcode9.3
       language: generic
@@ -18,3 +29,8 @@ matrix:
         - ./make/osx/install_python.sh
       script:
         - ./make/osx/build_wheels.sh
+        - |
+          if [[ $TRAVIS_TAG ]]; then
+            python -m pip install twine
+            python -m twine upload dist/*.whl
+          fi
