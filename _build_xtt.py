@@ -20,8 +20,8 @@ from distutils.util import get_platform
 
 
 # Note: Reset POST to 0 on version bump
-XTT_VERSION = 'v0.7.1'
-POST        = '1'
+XTT_VERSION = 'v0.7.2'
+POST        = '0'
 VERSION     = XTT_VERSION[1:] + '-' + POST
 
 @contextmanager
