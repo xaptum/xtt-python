@@ -4,9 +4,7 @@ import os
 import sys
 from setuptools import setup, find_packages
 from setuptools.command.build_ext import build_ext
-from _build_xtt import build_all, XTT
-
-VERSION = '{}-1'.format(XTT.version[1:])
+from _build_xtt import build_all, XTT, VERSION
 
 def _requirements(filepath):
     with open(filepath, 'rt') as f:

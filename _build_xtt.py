@@ -18,6 +18,12 @@ import subprocess
 from contextlib import contextmanager
 from distutils.util import get_platform
 
+
+# Note: Reset POST to 0 on version bump
+XTT_VERSION = 'v0.7.1'
+POST        = '1'
+VERSION     = XTT_VERSION[1:] + '-' + POST
+
 @contextmanager
 def chdir(new_path, mkdir=False):
     old_path = os.getcwd()
@@ -205,7 +211,7 @@ SODIUM = AutotoolsLibrary('libsodium', '1.0.16', 'https://github.com/jedisct1/li
                               'libsodium.a'
                           ])
 
-XTT = CMakeLibrary('xtt', 'v0.7.1', 'https://github.com/xaptum/xtt.git',
+XTT = CMakeLibrary('xtt', XTT_VERSION, 'https://github.com/xaptum/xtt.git',
                    [
                        '-DUSE_TPM=OFF',
                        '-Dsodium_USE_STATIC_LIBS=ON',
