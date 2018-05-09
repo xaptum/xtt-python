@@ -74,6 +74,12 @@ class ServerCertificate(object):
     authenticate the server.
     """
 
+    @classmethod
+    def from_file(cls, filename):
+        with open(filename, 'rb') as f:
+            raw = f.read()
+            return cls(raw)
+
     def __init__(self, size, value=None):
         self.native = _ffi.new('unsigned char[]', size)
 

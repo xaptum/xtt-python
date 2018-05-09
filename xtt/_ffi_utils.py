@@ -34,6 +34,12 @@ class DataStruct(object):
     """
     __metaclass__ = _DataStructMetaclass
 
+    @classmethod
+    def from_file(cls, filename):
+        with open(filename, 'rb') as f:
+            raw = f.read()
+            return cls(raw)
+
     def __init__(self, value=None):
         self.native = _ffi.new('%s*'%self.struct)
 

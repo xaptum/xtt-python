@@ -14,47 +14,17 @@ except ImportError as e:
     print("You must run 'python setup.py install' to use the examples")
     sys.exit()
 
-def load_server_id(filename):
-    with open(filename, 'rb') as f:
-        raw = f.read()
-        return xtt.Identity(raw)
-
-def load_root_id(filename):
-    with open(filename, 'rb') as f:
-        raw = f.read()
-        return xtt.CertificateRootId(raw)
-
-def load_root_pubkey(filename):
-    with open(filename, 'rb') as f:
-        raw = f.read()
-        return xtt.ED25519PublicKey(raw)
-
-def load_gpk(filename):
-    with open(filename, 'rb') as f:
-        raw = f.read()
-        return xtt.LRSWGroupPublicKey(raw)
-
-def load_cred(filename):
-    with open(filename, 'rb') as f:
-        raw = f.read()
-        return xtt.LRSWCredential(raw)
-
-def load_secretkey(filename):
-    with open(filename, 'rb') as f:
-        raw = f.read()
-        return xtt.LRSWPrivateKey(raw)
-
 def main():
-    root_id     = load_root_id("root_id.bin")
-    root_pubkey = load_root_pubkey("root_pub.bin")
+    root_id     = xtt.CertificateRootId.from_file("root_id.bin")
+    root_pubkey = xtt.ED25519PublicKey.from_file("root_pub.bin")
 
-    server_id   = load_server_id("server_id.bin")
+    server_id   = xtt.Identity.from_file("server_id.bin")
 
     group_basename  = b'BASENAME'
-    group_gpk       = load_gpk("daa_gpk.bin")
+    group_gpk       = xtt.LRSWGroupPublicKey.from_file("daa_gpk.bin")
     group_id        = xtt.GroupId(hashlib.sha256(group_gpk.data).digest())
-    group_cred      = load_cred("daa_cred.bin")
-    group_secretkey = load_secretkey("daa_secretkey.bin")
+    group_cred      = xtt.LRSWCredential.from_file("daa_cred.bin")
+    group_secretkey = xtt.LRSWPrivateKey.from_file("daa_secretkey.bin")
     group_ctx       = xtt.ClientLRSWGroupContext(group_id, group_secretkey,
                                                  group_cred, group_basename)
 
