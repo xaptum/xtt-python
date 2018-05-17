@@ -15,12 +15,14 @@
 from __future__ import absolute_import
 from __future__ import print_function
 
-from xtt.exceptions import *
+import socket
 
 from xtt import Identity
 from xtt.certificates import ED25519RootCertificateContext, CertificateRootId
 from xtt.server import ServerCookieContext, ServerHandshakeContext
 from xtt.client import ClientHandshakeContext
+
+from xtt.exceptions import *
 
 __all__ = ['XTTClientSocket', 'XTTServerSocket']
 
@@ -68,6 +70,8 @@ class XTTClientSocket(object):
     def do_read(self):
         buf = self._ctx.io_buffer
         cnt = self._sock.recv_into(buf, len(buf))
+        if cnt == 0:
+            raise socket.error("EOF")
         self._do(self._ctx.handle_io, 0, cnt)
 
     def do_write(self):
@@ -120,6 +124,8 @@ class XTTServerSocket(object):
     def do_read(self):
         buf = self._ctx.io_buffer
         cnt = self._sock.recv_into(buf, len(buf))
+        if cnt == 0:
+            raise socket.error("EOF")
         self._do(self._ctx.handle_io, 0, cnt)
 
     def do_write(self):
