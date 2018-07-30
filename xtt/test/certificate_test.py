@@ -22,18 +22,18 @@ import xtt
 
 class TestCertificates(unittest.TestCase):
 
-    def test_generate_ed25519_server_certificate(self):
+    def test_generate_ecdsap256_server_certificate(self):
         expiry = xtt.CertificateExpiry(b'21001231')
         root_id = xtt.CertificateRootId(b'0000111100001111')
         server_id = xtt.Identity(b'0000222200002222')
-        (root_pub, root_priv) = xtt.create_ed25519_key_pair()
-        (server_pub, server_priv) = xtt.create_ed25519_key_pair()
+        (root_pub, root_priv) = xtt.create_ecdsap256_key_pair()
+        (server_pub, server_priv) = xtt.create_ecdsap256_key_pair()
 
-        cert = xtt.generate_ed25519_server_certificate (server_id,
-                                                        server_pub,
-                                                        expiry,
-                                                        root_id,
-                                                        root_priv)
+        cert = xtt.generate_ecdsap256_server_certificate (server_id,
+                                                          server_pub,
+                                                          expiry,
+                                                          root_id,
+                                                          root_priv)
         self.assertTrue(b'21001231' in cert.data)
 
 class TestCertificateExpiry(unittest.TestCase):
@@ -47,20 +47,20 @@ class TestCertificateExpiry(unittest.TestCase):
         expiry = xtt.CertificateExpiry.from_datetime(dt)
         self.assertEqual(expiry.data, b'19850704')
 
-class TestED25519ServerCertificate(unittest.TestCase):
+class TestECDSAP256ServerCertificate(unittest.TestCase):
 
     def setUp(self):
         self.expiry = xtt.CertificateExpiry(b'21001231')
         self.root_id = xtt.CertificateRootId(b'0000111100001111')
         self.server_id = xtt.Identity(b'0000222200002222')
-        (self.root_pub, self.root_priv) = xtt.create_ed25519_key_pair()
-        (self.server_pub, self.server_priv) = xtt.create_ed25519_key_pair()
+        (self.root_pub, self.root_priv) = xtt.create_ecdsap256_key_pair()
+        (self.server_pub, self.server_priv) = xtt.create_ecdsap256_key_pair()
 
-        self.cert = xtt.generate_ed25519_server_certificate (self.server_id,
-                                                             self.server_pub,
-                                                             self.expiry,
-                                                             self.root_id,
-                                                             self.root_priv)
+        self.cert = xtt.generate_ecdsap256_server_certificate (self.server_id,
+                                                               self.server_pub,
+                                                               self.expiry,
+                                                               self.root_id,
+                                                               self.root_priv)
 
     def test_id(self):
         id = self.cert.id

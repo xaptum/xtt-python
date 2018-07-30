@@ -20,12 +20,12 @@ from xtt._ffi import lib as _lib
 from xtt._ffi_utils import Buffer, BufferView, DataStruct
 
 from xtt import GroupId, Identity
-from xtt.crypto import ED25519PublicKey, LRSWPseudonym
+from xtt.crypto import ECDSAP256PublicKey, LRSWPseudonym
 from xtt.exceptions import error_from_code, ReturnCode as RC
 
 __all__ = [
     'LRSWGroupPublicKeyContext', 'ServerCookieContext',
-    'ServerED25519CertificateContext', 'ServerHandshakeContext'
+    'ServerECDSAP256CertificateContext', 'ServerHandshakeContext'
 ]
 
 class LRSWGroupPublicKeyContext(object):
@@ -60,7 +60,7 @@ class ServerCookieContext(object):
         if rc != RC.SUCCESS:
             raise error_from_code(rc)
 
-class ServerED25519CertificateContext(object):
+class ServerECDSAP256CertificateContext(object):
     """
     Holds the certificate and signing key used to authenticate the
     server to the client.
@@ -72,7 +72,7 @@ class ServerED25519CertificateContext(object):
         if self.native == _ffi.NULL:
             raise MemoryError("Unable to allocate native object")
 
-        rc = _lib.xtt_initialize_server_certificate_context_ed25519(self.native,
+        rc = _lib.xtt_initialize_server_certificate_context_ecdsap256(self.native,
                                                                     cert.native,
                                                                     key.native)
         if rc != RC.SUCCESS:
@@ -137,9 +137,9 @@ class ServerHandshakeContext(object):
         return self._client_claimed_group
 
     @property
-    def client_longterm_key_ed25519(self):
-        pub = ED25519PublicKey()
-        rc = _lib.xtt_get_clients_longterm_key_ed25519(pub.native, self.native)
+    def client_longterm_key_ecdsap256(self):
+        pub = ECDSAP256PublicKey()
+        rc = _lib.xtt_get_clients_longterm_key_ecdsap256(pub.native, self.native)
         if rc == RC.SUCCESS:
             return pub
         else:

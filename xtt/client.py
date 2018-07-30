@@ -21,7 +21,7 @@ from xtt._ffi_utils import Buffer, BufferView, DataStruct
 
 from xtt import Identity
 from xtt.certificates import CertificateRootId
-from xtt.crypto import ED25519PrivateKey, ED25519PublicKey, LRSWPseudonym
+from xtt.crypto import ECDSAP256PrivateKey, ECDSAP256PublicKey, LRSWPseudonym
 from xtt.exceptions import error_from_code, ReturnCode as RC
 
 __all__ = [
@@ -97,18 +97,18 @@ class ClientHandshakeContext(object):
         return self._server_root_id
 
     @property
-    def my_longterm_public_key_ed25519(self):
-        pub = ED25519PublicKey()
-        rc = _lib.xtt_get_my_longterm_key_ed25519(pub.native, self.native)
+    def my_longterm_public_key_ecdsap256(self):
+        pub = ECDSAP256PublicKey()
+        rc = _lib.xtt_get_my_longterm_key_ecdsap256(pub.native, self.native)
         if rc == RC.SUCCESS:
             return pub
         else:
             raise error_from_code(rc)
 
     @property
-    def my_longterm_private_key_ed25519(self):
-        priv = ED25519PrivateKey()
-        rc = _lib.xtt_get_my_longterm_private_key_ed25519(priv.native, self.native)
+    def my_longterm_private_key_ecdsap256(self):
+        priv = ECDSAP256PrivateKey()
+        rc = _lib.xtt_get_my_longterm_private_key_ecdsap256(priv.native, self.native)
         if rc == RC.SUCCESS:
             return priv
         else:

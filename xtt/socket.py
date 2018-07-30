@@ -18,7 +18,7 @@ from __future__ import print_function
 import socket
 
 from xtt import Identity
-from xtt.certificates import ED25519RootCertificateContext, CertificateRootId
+from xtt.certificates import ECDSAP256RootCertificateContext, CertificateRootId
 from xtt.server import ServerCookieContext, ServerHandshakeContext
 from xtt.client import ClientHandshakeContext
 
@@ -32,7 +32,7 @@ class XTTClientSocket(object):
                  root_id, root_pubkey, identity=None):
         self._sock = sock
         self._server_root_id = CertificateRootId()
-        self._root_cert = ED25519RootCertificateContext(root_id, root_pubkey)
+        self._root_cert = ECDSAP256RootCertificateContext(root_id, root_pubkey)
         self._server_id = server_id
         self._identity  = identity or Identity()
         self._group_ctx = group_context
@@ -44,11 +44,11 @@ class XTTClientSocket(object):
 
     @property
     def longterm_public_key(self):
-        return self._ctx.my_longterm_public_key_ed25519
+        return self._ctx.my_longterm_public_key_ecdsap256
 
     @property
     def longterm_private_key(self):
-        return self._ctx.my_longterm_private_key_ed25519
+        return self._ctx.my_longterm_private_key_ecdsap256
 
     def _do(self, step, *args):
         try:
