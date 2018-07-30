@@ -37,12 +37,12 @@ class TestClientHandshakeContext(unittest.TestCase):
 
     def test_init_succeeds(self):
         version = xtt.Version.ONE
-        suite_spec = xtt.SuiteSpec.XTT_X25519_LRSW_ED25519_CHACHA20POLY1305_SHA512
+        suite_spec = xtt.SuiteSpec.XTT_X25519_LRSW_ECDSAP256_CHACHA20POLY1305_SHA512
         ctx = xtt.ClientHandshakeContext(version, suite_spec)
 
     def test_init_fails_on_unknown_version(self):
         version = 100
-        suite_spec = xtt.SuiteSpec.XTT_X25519_LRSW_ED25519_CHACHA20POLY1305_SHA512
+        suite_spec = xtt.SuiteSpec.XTT_X25519_LRSW_ECDSAP256_CHACHA20POLY1305_SHA512
         with self.assertRaisesRegex(xtt.XTTError, 'UNKNOWN_VERSION'):
             ctx = xtt.ClientHandshakeContext(version, suite_spec)
 
@@ -57,7 +57,7 @@ class TestServerCookieContext(unittest.TestCase):
     def test_init_succeeds(self):
         ctx = xtt.ServerCookieContext()
 
-class TestServerED25519CertificateContext(unittest.TestCase):
+class TestServerECDSAP256CertificateContext(unittest.TestCase):
     pass
 
 class TestClientLRSWGroupContext(unittest.TestCase):

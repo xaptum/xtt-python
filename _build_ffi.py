@@ -56,6 +56,7 @@ ffi.cdef(
         XTT_RETURN_RECEIVED_ERROR_MSG,
 
         XTT_RETURN_BAD_INIT,
+        XTT_RETURN_BAD_IO,
         XTT_RETURN_BAD_HANDSHAKE_ORDER,
         XTT_RETURN_INSUFFICIENT_ENTROPY,
         XTT_RETURN_BAD_IO_LENGTH,
@@ -72,6 +73,10 @@ ffi.cdef(
         XTT_RETURN_BAD_ROOT_SIGNATURE,
         XTT_RETURN_UNKNOWN_CRYPTO_SPEC,
         XTT_RETURN_BAD_CERTIFICATE,
+        XTT_RETURN_UNKNOWN_CERTIFICATE,
+        XTT_RETURN_UNKNOWN_GID,
+        XTT_RETURN_BAD_GPK,
+        XTT_RETURN_BAD_ID,
         XTT_RETURN_BAD_EXPIRY,
         XTT_RETURN_CRYPTO,
         XTT_RETURN_DAA,
@@ -92,15 +97,14 @@ ffi.cdef(
     } xtt_version;
 
     typedef enum {
-        XTT_X25519_LRSW_ED25519_CHACHA20POLY1305_SHA512    = 0x0001,
-        XTT_X25519_LRSW_ED25519_CHACHA20POLY1305_BLAKE2B   = 0x0002,
-        XTT_X25519_LRSW_ED25519_AES256GCM_SHA512           = 0x0003,
-        XTT_X25519_LRSW_ED25519_AES256GCM_BLAKE2B          = 0x0004
+        XTT_X25519_LRSW_ECDSAP256_CHACHA20POLY1305_SHA512    = 0x0001,
+        XTT_X25519_LRSW_ECDSAP256_CHACHA20POLY1305_BLAKE2B   = 0x0002,
+        XTT_X25519_LRSW_ECDSAP256_AES256GCM_SHA512           = 0x0003,
+        XTT_X25519_LRSW_ECDSAP256_AES256GCM_BLAKE2B          = 0x0004,
     } xtt_suite_spec;
 
-
     typedef enum {
-        XTT_SERVER_SIGNATURE_TYPE_ED25519 = 1
+        XTT_SERVER_SIGNATURE_TYPE_ECDSAP256 = 1,
     } xtt_server_signature_type;
 
     typedef struct {unsigned char data[16];} xtt_identity_type;
@@ -113,17 +117,17 @@ ffi.cdef(
     typedef struct {unsigned char data[65];} xtt_daa_pseudonym_lrsw;
 
     typedef struct {unsigned char data[16];} xtt_certificate_root_id;
-    typedef struct {unsigned char data[8];} xtt_certificate_expiry;
+    typedef struct {char data[8];} xtt_certificate_expiry;
 
-    typedef struct {unsigned char data[32];} xtt_ed25519_pub_key;
-    typedef struct {unsigned char data[64];} xtt_ed25519_priv_key;
+    typedef struct {unsigned char data[65];} xtt_ecdsap256_pub_key;
+    typedef struct {unsigned char data[32];} xtt_ecdsap256_priv_key;
 
     /**
      * Crypto Wrapper
      */
     int
-    xtt_crypto_create_ed25519_key_pair(xtt_ed25519_pub_key* pub,
-                                       xtt_ed25519_priv_key* priv);
+    xtt_crypto_create_ecdsap256_key_pair(xtt_ecdsap256_pub_key *pub_key,
+                                         xtt_ecdsap256_priv_key *priv_key);
 
     /**
      * ASN1
@@ -132,17 +136,16 @@ ffi.cdef(
     size_t xtt_asn1_private_key_length(void);
 
     int
-    xtt_x509_from_ed25519_keypair(const xtt_ed25519_pub_key *pub_key_in,
-                                  const xtt_ed25519_priv_key* priv_key_in,
-                                  const xtt_identity_type *common_name,
-                                  unsigned char *certificate_out,
-                                  size_t certificate_out_length);
+    xtt_x509_from_ecdsap256_keypair(const xtt_ecdsap256_pub_key *pub_key_in,
+                                    const xtt_ecdsap256_priv_key *priv_key_in,
+                                    const xtt_identity_type *common_name,
+                                    unsigned char *certificate_out,
+                                    size_t certificate_out_length);
 
-    int
-    xtt_asn1_from_ed25519_private_key(const xtt_ed25519_priv_key *priv_key_in,
-                                      unsigned char *asn1_out,
-                                      size_t asn1_out_length);
-
+    int xtt_asn1_from_ecdsap256_private_key(const xtt_ecdsap256_priv_key *priv_key_in,
+                                            const xtt_ecdsap256_pub_key *pub_key_in,
+                                            unsigned char *asn1_out,
+                                            size_t asn1_out_length);
 
     /**
      * Certificates
@@ -150,12 +153,12 @@ ffi.cdef(
     struct xtt_server_certificate_raw_type;
 
     xtt_return_code_type
-    xtt_generate_server_certificate_ed25519(unsigned char *cert_out,
-                                            xtt_identity_type *servers_id,
-                                            xtt_ed25519_pub_key *servers_pub_key,
-                                            xtt_certificate_expiry *expiry,
-                                            xtt_certificate_root_id *roots_id,
-                                            xtt_ed25519_priv_key *roots_priv_key);
+    xtt_generate_server_certificate_ecdsap256(unsigned char *cert_out,
+                                              xtt_identity_type *servers_id,
+                                              xtt_ecdsap256_pub_key *servers_pub_key,
+                                              xtt_certificate_expiry *expiry,
+                                              xtt_certificate_root_id *roots_id,
+                                              xtt_ecdsap256_priv_key *roots_priv_key);
 
     uint16_t
     xtt_server_certificate_length(xtt_suite_spec suite_spec);
@@ -230,20 +233,20 @@ ffi.cdef(
     xtt_initialize_server_cookie_context(struct xtt_server_cookie_context* ctx);
 
     xtt_return_code_type
-    xtt_initialize_server_certificate_context_ed25519(struct xtt_server_certificate_context *ctx_out,
-                                                      const unsigned char *serialized_certificate,
-                                                      xtt_ed25519_priv_key *private_key);
+    xtt_initialize_server_certificate_context_ecdsap256(struct xtt_server_certificate_context *ctx_out,
+                                                        const unsigned char *serialized_certificate,
+                                                        const xtt_ecdsap256_priv_key *private_key);
 
     xtt_return_code_type
-    xtt_initialize_server_root_certificate_context_ed25519(struct xtt_server_root_certificate_context *cert_out,
-                                                           xtt_certificate_root_id *id,
-                                                           xtt_ed25519_pub_key *public_key);
+    xtt_initialize_server_root_certificate_context_ecdsap256(struct xtt_server_root_certificate_context *cert_out,
+                                                             xtt_certificate_root_id *id,
+                                                             xtt_ecdsap256_pub_key *public_key);
 
     xtt_return_code_type
     xtt_initialize_group_public_key_context_lrsw(struct xtt_group_public_key_context *ctx_out,
                                                  const unsigned char *basename,
                                                  uint16_t basename_length,
-                                                 xtt_daa_group_pub_key_lrsw *gpk);
+                                                 const xtt_daa_group_pub_key_lrsw *gpk);
 
     xtt_return_code_type
     xtt_initialize_client_group_context_lrsw(struct xtt_client_group_context *ctx_out,
@@ -262,8 +265,8 @@ ffi.cdef(
                        const struct xtt_server_handshake_context *handshake_context);
 
     xtt_return_code_type
-    xtt_get_clients_longterm_key_ed25519(xtt_ed25519_pub_key *longterm_key_out,
-                                         const struct xtt_server_handshake_context *handshake_context);
+    xtt_get_clients_longterm_key_ecdsap256(xtt_ecdsap256_pub_key *longterm_key_out,
+                                           const struct xtt_server_handshake_context *handshake_context);
 
     xtt_return_code_type
     xtt_get_clients_identity(xtt_identity_type *client_id_out,
@@ -274,12 +277,12 @@ ffi.cdef(
                                    const struct xtt_server_handshake_context *handshake_context);
 
     xtt_return_code_type
-    xtt_get_my_longterm_key_ed25519(xtt_ed25519_pub_key *longterm_key_out,
-                                    const struct xtt_client_handshake_context *handshake_context);
+    xtt_get_my_longterm_key_ecdsap256(xtt_ecdsap256_pub_key *longterm_key_out,
+                                      const struct xtt_client_handshake_context *handshake_context);
 
     xtt_return_code_type
-    xtt_get_my_longterm_private_key_ed25519(xtt_ed25519_priv_key *longterm_key_priv_out,
-                                            const struct xtt_client_handshake_context *handshake_context);
+    xtt_get_my_longterm_private_key_ecdsap256(xtt_ecdsap256_priv_key *longterm_key_priv_out,
+                                              const struct xtt_client_handshake_context *handshake_context);
 
     xtt_return_code_type
     xtt_get_my_identity(xtt_identity_type *client_id_out,

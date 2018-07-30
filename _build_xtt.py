@@ -20,8 +20,8 @@ from distutils.util import get_platform
 
 
 # Note: Reset POST to 0 on version bump
-XTT_VERSION = 'v0.7.2'
-POST        = '1'
+XTT_VERSION = 'v0.9.2'
+POST        = '0'
 VERSION     = XTT_VERSION[1:] + '-' + POST
 
 @contextmanager
@@ -177,7 +177,7 @@ class AutotoolsLibrary(Library):
 AMCL = CMakeLibrary('amcl', '4.7.3',  'https://github.com/milagro-crypto/milagro-crypto-c.git',
                     [
                         '-DAMCL_INCLUDE_SUBDIR=amcl',
-                        '-DAMCL_CURVE=FP256BN',
+                        '-DAMCL_CURVE=FP256BN,NIST256',
                         '-DAMCL_RSA=',
                         '-DBUILD_BENCHMARKS=OFF',
                         '-DBUILD_DOCS=OFF',
@@ -187,6 +187,7 @@ AMCL = CMakeLibrary('amcl', '4.7.3',  'https://github.com/milagro-crypto/milagro
                         '-DBUILD_X509=OFF'
                     ],
                     [
+                        'libamcl_curve_NIST256.a',
                         'libamcl_curve_FP256BN.a',
                         'libamcl_pairing_FP256BN.a',
                         'libamcl_core.a',

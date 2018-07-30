@@ -23,34 +23,34 @@ from xtt._ffi_utils import DataStruct
 from xtt._utils import _check_len, to_bytes, to_text
 
 from xtt import Identity, SignatureType
-from xtt.crypto import ED25519PublicKey
+from xtt.crypto import ECDSAP256PublicKey
 from xtt.exceptions import error_from_code, ReturnCode as RC
 
 __all__ = [
-    'generate_ed25519_server_certificate',
-    'CertificateExpiry', 'CertificateRootId', 'ED25519ServerCertificate',
-    'ED25519RootCertificateContext'
+    'generate_ecdsap256_server_certificate',
+    'CertificateExpiry', 'CertificateRootId', 'ECDSAP256ServerCertificate',
+    'ECDSAP256RootCertificateContext'
 ]
 
-def generate_ed25519_server_certificate(server_id, server_pub_key, expiry,
+def generate_ecdsap256_server_certificate(server_id, server_pub_key, expiry,
                                         root_id, root_priv_key):
     """
     Creates a new server certificate signed by the provided root.
 
     :param Identity server_id: the identity for the certificate
-    :param ED25519PublicKey server_pub_key: the public key for the certificate
+    :param ECDSAP256PublicKey server_pub_key: the public key for the certificate
     :param CertificateExpiry expiry: the expiry date for the certificate
     :param CertificateRootId root_id: the root identity to sign this certificate
-    :param ED25519PrivateKey root_priv_key: the root private key to sign this
+    :param ECDSAP256PrivateKey root_priv_key: the root private key to sign this
                                             certificate
     """
-    cert = ED25519ServerCertificate()
-    rc = _lib.xtt_generate_server_certificate_ed25519(cert.native,
-                                                      server_id.native,
-                                                      server_pub_key.native,
-                                                      expiry.native,
-                                                      root_id.native,
-                                                      root_priv_key.native)
+    cert = ECDSAP256ServerCertificate()
+    rc = _lib.xtt_generate_server_certificate_ecdsap256(cert.native,
+                                                        server_id.native,
+                                                        server_pub_key.native,
+                                                        expiry.native,
+                                                        root_id.native,
+                                                        root_priv_key.native)
     if rc == RC.SUCCESS:
         return cert
     else:
@@ -143,22 +143,22 @@ class ServerCertificate(object):
         buff = _ffi.buffer(value, CertificateRootId.sizeof)
         return CertificateRootId(buff)
 
-class ED25519ServerCertificate(ServerCertificate):
+class ECDSAP256ServerCertificate(ServerCertificate):
     """
-    A :ServerCertificate: using ED25519 keys.
+    A :ServerCertificate: using ECDSAP256 keys.
     """
 
     def __init__(self, value=None):
-        size = _lib.xtt_server_certificate_length_fromsignaturetype(SignatureType.ED25519)
-        super(ED25519ServerCertificate, self).__init__(size, value)
+        size = _lib.xtt_server_certificate_length_fromsignaturetype(SignatureType.ECDSAP256)
+        super(ECDSAP256ServerCertificate, self).__init__(size, value)
 
     @property
     def public_key(self):
         value = _lib.xtt_server_certificate_access_pubkey(self._raw)
-        buff = _ffi.buffer(value, ED25519PublicKey.sizeof)
-        return ED25519PublicKey(buff)
+        buff = _ffi.buffer(value, ECDSAP256PublicKey.sizeof)
+        return ECDSAP256PublicKey(buff)
 
-class ED25519RootCertificateContext(object):
+class ECDSAP256RootCertificateContext(object):
     """A root certificate id and public key
     """
 
@@ -168,8 +168,8 @@ class ED25519RootCertificateContext(object):
         if self.native == _ffi.NULL:
             raise MemoryError("Unable to allocate native object")
 
-        rc = _lib.xtt_initialize_server_root_certificate_context_ed25519(self.native,
-                                                                         root_id.native,
-                                                                         root_pubkey.native)
+        rc = _lib.xtt_initialize_server_root_certificate_context_ecdsap256(self.native,
+                                                                           root_id.native,
+                                                                           root_pubkey.native)
         if rc != RC.SUCCESS:
             error_from_code(rc)

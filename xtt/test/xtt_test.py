@@ -26,10 +26,10 @@ class TestReturnCodes(unittest.TestCase):
 
 class TestCrypto(unittest.TestCase):
 
-    def test_create_ed25519_key_pair(self):
-        (pub, priv) = xtt.crypto.create_ed25519_key_pair()
-        self.assertEqual(len(pub.data), 32)
-        self.assertEqual(len(priv.data), 64)
+    def test_create_ecdsap256_key_pair(self):
+        (pub, priv) = xtt.crypto.create_ecdsap256_key_pair()
+        self.assertEqual(len(pub.data), 65)
+        self.assertEqual(len(priv.data), 32)
 
 if __name__ == "__main__":
     unittest.main()
