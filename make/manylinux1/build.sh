@@ -3,7 +3,7 @@ set -e -x
 
 # Python 3 is needed to build ECDAA, so add it
 # to global PTH
-export PATH=$PATH:/opt/_internal/cpython-3.6.5/bin
+export PATH=$PATH:/opt/_internal/cpython-3.6.6/bin
 
 # CMake is needed for all deps, so install it
 pip3 install cmake

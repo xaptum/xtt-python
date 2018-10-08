@@ -9,6 +9,8 @@ URLS=(
     'https://www.python.org/ftp/python/3.6.5/python-3.6.5-macosx10.9.pkg'
 )
 
+pip install virtualenv
+
 for url in "${URLS[@]}"; do
     curl -Lo /tmp/python.pkg "$url"
     sudo installer -pkg /tmp/python.pkg -target /

@@ -23,7 +23,7 @@ matrix:
           fi
 
     - os: osx
-      osx_image: xcode9.3
+      osx_image: xcode9.4
       language: generic
       install:
         - ./make/osx/install_python.sh
