@@ -215,6 +215,8 @@ SODIUM = AutotoolsLibrary('libsodium', '1.0.16', 'https://github.com/jedisct1/li
 XTT = CMakeLibrary('xtt', XTT_VERSION, 'https://github.com/xaptum/xtt.git',
                    [
                        '-DUSE_TPM=OFF',
+                       '-DBUILD_TOOL=OFF',
+                       '-DCMAKE_C_FLAGS="-D_GNU_SOURCE"',
                        '-Dsodium_USE_STATIC_LIBS=ON',
                        '-DAMCL_DIR={}'.format(AMCL.config_path),
                        '-Decdaa_DIR={}'.format(ECDAA.config_path)
