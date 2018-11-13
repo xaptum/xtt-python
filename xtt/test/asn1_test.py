@@ -36,7 +36,7 @@ class TestASN1(unittest.TestCase):
 
         decoded = der_decode(cert, asn1Spec=rfc5280.Certificate(), decodeOpenTypes=True)[0]
         decoded_common_name = decoded['tbsCertificate']['subject'][0][0][0]['value']['utf8String']
-        self.assertEqual(decoded_common_name, "FD000000000000000000000000000000")
+        self.assertEqual(decoded_common_name, "FD00:0000:0000:0000:0000:0000:0000:0000")
 
     def test_asn1_from_ecdsap256_private_key(self):
         pub = xtt.ECDSAP256PublicKey(
